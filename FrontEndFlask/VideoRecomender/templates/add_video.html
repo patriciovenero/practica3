@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-5 rounded-md shadow-md">
+    <h1 class="text-xl font-bold mb-4">Agregar Video</h1>
+    <form id="add-video-form" action="{{ url_for('upload_video') }}" method="POST" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="video">Video File</label>
+            <input type="file" id="video" name="video" class="w-full p-2 border border-gray-300 rounded" required>
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Categories (Select 3 to 6)</label>
+            {% for category in categories %}
+            <div class="flex items-center">
+                <input type="checkbox" id="category_{{ loop.index }}" name="category[]" value="{{ category }}" class="mr-2">
+                <label for="category_{{ loop.index }}">{{ category }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">Guardar</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('add-video-form').addEventListener('submit', function (event) {
+        var selectedCategories = document.querySelectorAll('input[name="category[]"]:checked');
+        if (selectedCategories.length < 3 || selectedCategories.length > 6) {
+            alert('Please select between 3 and 6 categories.');
+            event.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

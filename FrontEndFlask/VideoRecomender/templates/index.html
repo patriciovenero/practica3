@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for video in videos %}
+    <div class="snap-start video-container">
+        <video>
+            <source src="{{ url_for('static', filename='uploads/' + video.filename) }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <p class="mt-2 text-gray-700 absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2">{{ video.categories | join(', ') }}</p>
+    </div>
+    {% endfor %}
+{% endblock %}
