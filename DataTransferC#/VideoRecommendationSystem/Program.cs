@@ -18,7 +18,7 @@ namespace VideoRecommendationSystem
             // Configuración de MongoDB
             string mongoConnectionString = "mongodb://localhost:27017";
             MongoClient mongoClient = new MongoClient(mongoConnectionString);
-            IMongoDatabase mongoDatabase = mongoClient.GetDatabase("recomendacionesdevideos");
+            IMongoDatabase mongoDatabase = mongoClient.GetDatabase("recomendaciondevideos");
             IMongoCollection<BsonDocument> infoVideoCollection = mongoDatabase.GetCollection<BsonDocument>("infovideo");
 
             // Recuperar la información de Redis y guardarla en MongoDB
