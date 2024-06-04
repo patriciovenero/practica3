@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("VideoRecommendationSystem")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("project_name")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92a76a2481b9b3cf8d306f4f3d2d88c1baabcae1")]
-[assembly: System.Reflection.AssemblyProductAttribute("VideoRecommendationSystem")]
-[assembly: System.Reflection.AssemblyTitleAttribute("VideoRecommendationSystem")]
+[assembly: System.Reflection.AssemblyProductAttribute("project_name")]
+[assembly: System.Reflection.AssemblyTitleAttribute("project_name")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Generado por la clase WriteCodeFragment de MSBuild.
