@@ -3,17 +3,73 @@
 {% block content %}
     {% for video in videos %}
     <div class="snap-start video-container">
-        <video controls>
+        <video controls data-video-id="{{ video._id }}" data-index="{{ loop.index }}">
             <source src="{{ url_for('static', filename='uploads/' + video.filename) }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <p class="mt-2 text-gray-700 absolute bottom-0 left-0 bg-black bg-opacity-50 text-white p-2">
             Duración: <span id="duration{{ loop.index }}">00:00</span> | 
             Fecha de carga: {{ video.upload_date }} | 
-            ID del video: {{ video.id }}
+            ID del video: {{ video._id }}
         </p>
     </div>
     {% endfor %}
 {% endblock %}
 
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const videoContainers = document.querySelectorAll('.video-container');
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
 
+        function handleIntersection(entries, observer) {
+            entries.forEach(entry => {
+                const video = entry.target.querySelector('video');
+                if (entry.isIntersecting) {
+                    video.play();
+                    video.addEventListener('timeupdate', handleTimeUpdate);
+                } else {
+                    video.pause();
+                    video.removeEventListener('timeupdate', handleTimeUpdate);
+                }
+            });
+        }
+
+        function handleTimeUpdate(event) {
+            const video = event.target;
+            const videoId = video.getAttribute('data-video-id');
+            const secondsWatched = Math.floor(video.currentTime);
+            const index = video.getAttribute('data-index');
+
+            // Sending data to the server
+            fetch('/video_seen', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    video_id: videoId,
+                    seconds_watched: secondsWatched
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(`Video ${index}:`, data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        const observer = new IntersectionObserver(handleIntersection, options);
+
+        videoContainers.forEach(container => {
+            observer.observe(container);
+        });
+    });
+</script>
+{% endblock %}
